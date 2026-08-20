@@ -1,1 +1,297 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f6f8fb" />
+  <title>Directorio docente · UCSS</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --surface: rgba(255,255,255,.88);
+      --text: #1d2430;
+      --muted: #6c7480;
+      --line: #e4e8ee;
+      --shadow: 0 18px 50px rgba(31,45,61,.08);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 0%, #eaf1ff 0, transparent 34%),
+        radial-gradient(circle at 100% 15%, #eef8f3 0, transparent 30%),
+        var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .shell { width: min(1380px, calc(100% - 32px)); margin: 0 auto; padding: 42px 0 56px; }
+    .hero { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end; margin-bottom: 20px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; padding: 7px 11px;
+      border: 1px solid #dce5f4; border-radius: 999px; background: rgba(255,255,255,.65);
+      color: #526174; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #5b8def; box-shadow: 0 0 0 4px #e8f0ff; }
+    h1 { margin: 14px 0 8px; font-size: clamp(32px, 5vw, 54px); line-height: .98; letter-spacing: -.045em; font-weight: 760; }
+    .subtitle { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
+    .top-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    .btn {
+      appearance: none; border: 0; min-height: 44px; padding: 0 15px; border-radius: 13px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; white-space: nowrap;
+      transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0) scale(.985); }
+    .btn-primary { color: #fff; background: #1f2937; box-shadow: 0 9px 22px rgba(31,41,55,.16); }
+    .btn-soft { color: #345788; background: #edf3ff; border: 1px solid #dde8fb; }
+    .btn-mail { color: #24634f; background: #eef8f3; border: 1px solid #d9eee5; }
+    .btn svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .panel {
+      overflow: hidden; border: 1px solid rgba(214,220,229,.88); border-radius: var(--radius);
+      background: var(--surface); box-shadow: var(--shadow); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 1130px; }
+    th, td { padding: 17px 15px; border-bottom: 1px solid var(--line); vertical-align: middle; text-align: left; }
+    thead th {
+      padding-top: 16px; padding-bottom: 12px; color: #7a8290; background: rgba(250,251,253,.88);
+      font-size: 11px; font-weight: 760; letter-spacing: .055em; text-transform: uppercase;
+      position: sticky; top: 0; z-index: 2;
+    }
+    tbody tr { transition: background .14s ease; }
+    tbody tr:hover { background: rgba(245,248,252,.8); }
+    .num { width: 56px; text-align: center; color: #8b93a0; font-variant-numeric: tabular-nums; font-weight: 650; }
+    .name { min-width: 300px; font-size: 14px; font-weight: 720; letter-spacing: -.01em; }
+    .specialty { color: #596271; font-size: 13px; font-weight: 650; }
+    .phone { font-size: 13px; color: #333d4c; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .phone a, .email { color: inherit; text-decoration: none; }
+    .email {
+      display: inline-flex; max-width: 100%; padding: 7px 9px; border-radius: 9px;
+      color: #315c97; background: #f4f7fc; font-size: 13px; overflow-wrap: anywhere;
+    }
+    .email:hover { background: #eaf1fc; color: #214d88; }
+    .empty { color: #a4aab3; }
+    tfoot td { background: rgba(250,251,253,.94); border-bottom: 0; padding-top: 13px; padding-bottom: 15px; }
+    .footer-label { color: #8a929e; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+    .column-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .column-actions .btn { min-height: 38px; padding: 0 11px; font-size: 12px; border-radius: 11px; }
+    .mobile-actions { display: none; gap: 12px; margin-top: 16px; }
+    .action-card { flex: 1; padding: 16px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.8); }
+    .action-card h3 { margin: 0 0 10px; font-size: 14px; letter-spacing: -.01em; }
+    .action-card .column-actions { display: grid; }
+    .privacy-note { margin: 14px 2px 0; color: #8a929e; font-size: 11px; line-height: 1.5; }
+    .toast {
+      position: fixed; left: 50%; bottom: 26px; z-index: 20; transform: translate(-50%, 16px) scale(.98);
+      opacity: 0; pointer-events: none; padding: 11px 15px; border-radius: 999px; color: #fff;
+      background: rgba(31,41,55,.94); box-shadow: 0 14px 36px rgba(0,0,0,.18);
+      font-size: 13px; font-weight: 700; transition: opacity .18s ease, transform .18s ease; backdrop-filter: blur(12px);
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    @media (max-width: 820px) {
+      .shell { width: min(100% - 22px, 760px); padding-top: 26px; }
+      .hero { grid-template-columns: 1fr; align-items: start; gap: 16px; }
+      .top-actions { justify-content: flex-start; }
+      .top-actions .btn { flex: 1 1 190px; }
+      .panel { border-radius: 18px; }
+      .table-wrap { display: none; }
+      .mobile-actions { display: grid; }
+      .cards { display: grid; gap: 10px; padding: 10px; }
+      .person-card { padding: 15px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.88); }
+      .person-top { display: flex; gap: 10px; align-items: flex-start; }
+      .badge-num { min-width: 30px; height: 30px; display: inline-grid; place-items: center; border-radius: 9px; background: #f1f4f8; color: #7d8693; font-size: 12px; font-weight: 750; }
+      .person-name { margin: 2px 0 3px; font-size: 14px; font-weight: 760; line-height: 1.25; }
+      .person-spec { color: #7b8390; font-size: 11px; font-weight: 650; }
+      .person-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
+      .person-item { display: flex; flex-direction: column; gap: 4px; }
+      .person-item span:first-child { color: #949ba6; font-size: 10px; font-weight: 720; letter-spacing: .04em; text-transform: uppercase; }
+      .person-item a { width: fit-content; max-width: 100%; }
+    }
+    @media (min-width: 821px) { .cards { display: none; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <span class="eyebrow"><span class="dot"></span> UCSS · Chulucanas</span>
+        <h1>Directorio docente</h1>
+        <p class="subtitle">Matemática · 11 docentes · accesos rápidos para copiar direcciones o redactar un anuncio.</p>
+      </div>
+      <div class="top-actions">
+        <button class="btn btn-soft" type="button" onclick="copyEmails('all')">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          Copiar todos los correos
+        </button>
+        <button class="btn btn-primary" type="button" onclick="openMail('institutional')">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path><path d="m22 6-10 7L2 6"></path></svg>
+          Anunciar a todos
+        </button>
+      </div>
+    </section>
 
+    <section class="panel" aria-label="Directorio de docentes">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="num">N°</th>
+              <th>Apellidos y nombres</th>
+              <th>Especialidad</th>
+              <th>Celular</th>
+              <th>Correo personal</th>
+              <th>Correo institucional</th>
+            </tr>
+          </thead>
+          <tbody id="directoryBody"></tbody>
+          <tfoot>
+            <tr>
+              <td></td>
+              <td><span class="footer-label">Acciones rápidas</span></td>
+              <td></td>
+              <td></td>
+              <td>
+                <div class="column-actions">
+                  <button class="btn btn-soft" type="button" onclick="copyEmails('personal')">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copiar
+                  </button>
+                  <button class="btn btn-mail" type="button" onclick="openMail('personal')">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path><path d="m22 6-10 7L2 6"></path></svg>
+                    Redactar
+                  </button>
+                </div>
+              </td>
+              <td>
+                <div class="column-actions">
+                  <button class="btn btn-soft" type="button" onclick="copyEmails('institutional')">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copiar
+                  </button>
+                  <button class="btn btn-mail" type="button" onclick="openMail('institutional')">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path><path d="m22 6-10 7L2 6"></path></svg>
+                    Redactar
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="cards" id="directoryCards"></div>
+    </section>
+
+    <section class="mobile-actions" aria-label="Acciones de correo">
+      <div class="action-card">
+        <h3>Correo personal</h3>
+        <div class="column-actions">
+          <button class="btn btn-soft" type="button" onclick="copyEmails('personal')">Copiar correos</button>
+          <button class="btn btn-mail" type="button" onclick="openMail('personal')">Redactar correo</button>
+        </div>
+      </div>
+      <div class="action-card">
+        <h3>Correo institucional</h3>
+        <div class="column-actions">
+          <button class="btn btn-soft" type="button" onclick="copyEmails('institutional')">Copiar correos</button>
+          <button class="btn btn-mail" type="button" onclick="openMail('institutional')">Redactar correo</button>
+        </div>
+      </div>
+    </section>
+
+    <p class="privacy-note">Los botones de redacción colocan las direcciones en CCO para evitar exponer la lista completa de destinatarios entre docentes.</p>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite">¡Copiado!</div>
+
+  <script>
+    const faculty = [
+      { n: 1,  name: 'ANTO MIMBELA LUIS ALBERTO', specialty: 'MATEMÁTICA', phone: '931 138 520', personal: 'la86926@gmail.com', institutional: 'lanto@ucss.edu.pe' },
+      { n: 2,  name: 'CORREA GARCIA HAYDEE', specialty: 'MATEMÁTICA', phone: '942 619 619', personal: '', institutional: 'hcorrea@ucss.edu.pe' },
+      { n: 3,  name: 'FLORES MACALUPU LUIS ENRIQUE', specialty: 'MATEMÁTICA', phone: '958 415 145', personal: 'enriqueflores1612@gmail.com', institutional: 'lfloresm@ucss.edu.pe' },
+      { n: 4,  name: 'GARCIA CAMPOVERDE HEVERTH', specialty: 'MATEMÁTICA', phone: '945 756 780', personal: 'kenshi_19@hotmail.com', institutional: 'hgarciac@ucss.edu.pe' },
+      { n: 5,  name: 'LAMADRID REYES JAVIER EMILIANO', specialty: 'MATEMÁTICA', phone: '958 949 808', personal: '', institutional: 'jlamadrid@ucss.edu.pe' },
+      { n: 6,  name: 'MONDRAGON MENDOZA CAMILL', specialty: 'MATEMÁTICA', phone: '910 362 783', personal: '', institutional: 'cmondragon@ucss.edu.pe' },
+      { n: 7,  name: 'MORAN QUISPE PEDRO MARCIAL', specialty: 'MATEMÁTICA', phone: '975 487 278', personal: 'pedro_aje18@hotmail.com', institutional: 'pmoran@ucss.edu.pe' },
+      { n: 9,  name: 'PULACHE GARCIA JOSE ALBERTO', specialty: 'MATEMÁTICA', phone: '948 746 133', personal: '', institutional: 'jpulache@ucss.edu.pe' },
+      { n: 10, name: 'RIOJA LOZADA EDWIN RONALD', specialty: 'MATEMÁTICA', phone: '938 315 745', personal: '', institutional: 'erioja@ucss.edu.pe' },
+      { n: 11, name: 'SANCHEZ CARRANZA JOSE ALCIVIADES', specialty: 'MATEMÁTICA', phone: '973 483 980', personal: '', institutional: 'jsanchezc@ucss.edu.pe' },
+      { n: 12, name: 'VILCHERREZ VILELA RITA', specialty: 'MATEMÁTICA', phone: '931 138 623', personal: 'rita_20_4@hotmail.com', institutional: 'rvilcherrez@ucss.edu.pe' }
+    ];
+
+    const body = document.getElementById('directoryBody');
+    const cards = document.getElementById('directoryCards');
+
+    const emailLink = (email) => email
+      ? `<a class="email" href="mailto:${email}">${email}</a>`
+      : '<span class="empty">—</span>';
+
+    body.innerHTML = faculty.map(person => `
+      <tr>
+        <td class="num">${person.n}</td>
+        <td class="name">${person.name}</td>
+        <td class="specialty">${person.specialty}</td>
+        <td class="phone"><a href="tel:${person.phone.replaceAll(' ', '')}">${person.phone}</a></td>
+        <td>${emailLink(person.personal)}</td>
+        <td>${emailLink(person.institutional)}</td>
+      </tr>
+    `).join('');
+
+    cards.innerHTML = faculty.map(person => `
+      <article class="person-card">
+        <div class="person-top">
+          <span class="badge-num">${person.n}</span>
+          <div>
+            <div class="person-name">${person.name}</div>
+            <div class="person-spec">${person.specialty}</div>
+          </div>
+        </div>
+        <div class="person-grid">
+          <div class="person-item"><span>Celular</span><a class="phone" href="tel:${person.phone.replaceAll(' ', '')}">${person.phone}</a></div>
+          <div class="person-item"><span>Correo personal</span>${emailLink(person.personal)}</div>
+          <div class="person-item"><span>Correo institucional</span>${emailLink(person.institutional)}</div>
+        </div>
+      </article>
+    `).join('');
+
+    function getEmails(kind) {
+      if (kind === 'personal') return faculty.map(p => p.personal).filter(Boolean);
+      if (kind === 'institutional') return faculty.map(p => p.institutional).filter(Boolean);
+      return [...new Set(faculty.flatMap(p => [p.personal, p.institutional]).filter(Boolean))];
+    }
+
+    async function copyEmails(kind) {
+      const text = getEmails(kind).join(', ');
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (_) {
+        const helper = document.createElement('textarea');
+        helper.value = text;
+        helper.style.position = 'fixed';
+        helper.style.opacity = '0';
+        document.body.appendChild(helper);
+        helper.select();
+        document.execCommand('copy');
+        helper.remove();
+      }
+      showToast('¡Copiado!');
+    }
+
+    function openMail(kind) {
+      const emails = getEmails(kind);
+      window.location.href = `mailto:?bcc=${encodeURIComponent(emails.join(','))}`;
+    }
+
+    let toastTimer;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 1200);
+    }
+  </script>
+</body>
+</html>
