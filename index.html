@@ -1,395 +1,134 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#f6f8fb" />
-  <title>Directorio docente · UCSS</title>
-  <style>
-    :root {
-      --bg: #f4f6f8;
-      --surface: rgba(255,255,255,.88);
-      --text: #1d2430;
-      --muted: #6c7480;
-      --line: #e4e8ee;
-      --shadow: 0 18px 50px rgba(31,45,61,.08);
-      --radius: 22px;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 10% 0%, #eaf1ff 0, transparent 34%),
-        radial-gradient(circle at 100% 15%, #eef8f3 0, transparent 30%),
-        var(--bg);
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, "Segoe UI", sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-    button, a { -webkit-tap-highlight-color: transparent; }
-    .shell { width: min(1380px, calc(100% - 32px)); margin: 0 auto; padding: 42px 0 56px; }
-    .hero { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end; margin-bottom: 20px; }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px; padding: 7px 11px;
-      border: 1px solid #dce5f4; border-radius: 999px; background: rgba(255,255,255,.65);
-      color: #526174; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-    }
-    .dot { width: 7px; height: 7px; border-radius: 50%; background: #5b8def; box-shadow: 0 0 0 4px #e8f0ff; }
-    h1 { margin: 14px 0 8px; font-size: clamp(32px, 5vw, 54px); line-height: .98; letter-spacing: -.045em; font-weight: 760; }
-    .subtitle { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
-    .top-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
-    .btn {
-      appearance: none; border: 0; min-height: 44px; padding: 0 15px; border-radius: 13px;
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; white-space: nowrap;
-      transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
-    }
-    .btn:hover { transform: translateY(-1px); }
-    .btn:active { transform: translateY(0) scale(.985); }
-    .btn-primary { color: #fff; background: #1f2937; box-shadow: 0 9px 22px rgba(31,41,55,.16); }
-    .btn-soft { color: #345788; background: #edf3ff; border: 1px solid #dde8fb; }
-    .btn-mail { color: #24634f; background: #eef8f3; border: 1px solid #d9eee5; }
-    .btn svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .panel {
-      overflow: hidden; border: 1px solid rgba(214,220,229,.88); border-radius: var(--radius);
-      background: var(--surface); box-shadow: var(--shadow); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-    }
-    .section-block { margin-top: 28px; }
-    .section-head {
-      display: flex; align-items: end; justify-content: space-between; gap: 16px;
-      margin: 0 2px 12px;
-    }
-    .section-head h2 { margin: 0; font-size: 22px; letter-spacing: -.025em; }
-    .section-head p { margin: 5px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
-    .authority-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-    .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 1130px; }
-    th, td { padding: 17px 15px; border-bottom: 1px solid var(--line); vertical-align: middle; text-align: left; }
-    thead th {
-      padding-top: 16px; padding-bottom: 12px; color: #7a8290; background: rgba(250,251,253,.88);
-      font-size: 11px; font-weight: 760; letter-spacing: .055em; text-transform: uppercase;
-      position: sticky; top: 0; z-index: 2;
-    }
-    tbody tr { transition: background .14s ease; }
-    tbody tr:hover { background: rgba(245,248,252,.8); }
-    .num { width: 56px; text-align: center; color: #8b93a0; font-variant-numeric: tabular-nums; font-weight: 650; }
-    .name { min-width: 300px; font-size: 14px; font-weight: 720; letter-spacing: -.01em; }
-    .specialty { color: #596271; font-size: 13px; font-weight: 650; }
-    .phone { font-size: 13px; color: #333d4c; font-variant-numeric: tabular-nums; white-space: nowrap; }
-    .phone a, .email { color: inherit; text-decoration: none; }
-    .email-wrap { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; }
-    .email {
-      display: inline-flex; max-width: 100%; padding: 7px 9px; border-radius: 9px;
-      color: #315c97; background: #f4f7fc; font-size: 13px; overflow-wrap: anywhere;
-    }
-    .email:hover { background: #eaf1fc; color: #214d88; }
-    .copy-email {
-      appearance: none; height: 32px; min-width: 32px; padding: 0 9px; border: 1px solid #dfe6f0; border-radius: 9px;
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex: 0 0 auto;
-      color: #667085; background: rgba(255,255,255,.92); font: inherit; font-size: 11px; font-weight: 720;
-      cursor: pointer; transition: background .14s ease, color .14s ease, transform .14s ease, border-color .14s ease;
-    }
-    .copy-email:hover { color: #345788; background: #edf3ff; border-color: #d4e1f5; }
-    .copy-email:active { transform: scale(.97); }
-    .copy-email svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .empty { color: #a4aab3; }
-    tfoot td { background: rgba(250,251,253,.94); border-bottom: 0; padding-top: 13px; padding-bottom: 15px; }
-    .footer-label { color: #8a929e; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
-    .column-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-    .column-actions .btn { min-height: 38px; padding: 0 11px; font-size: 12px; border-radius: 11px; }
-    .mobile-actions { display: none; gap: 12px; margin-top: 16px; }
-    .action-card { flex: 1; padding: 16px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.8); }
-    .action-card h3 { margin: 0 0 10px; font-size: 14px; letter-spacing: -.01em; }
-    .action-card .column-actions { display: grid; }
-    .privacy-note { margin: 14px 2px 0; color: #8a929e; font-size: 11px; line-height: 1.5; }
-    .authority-table { min-width: 900px; }
-    .authority-role { min-width: 360px; color: #596271; font-size: 13px; line-height: 1.45; font-weight: 650; }
-    .authority-name { min-width: 260px; font-size: 14px; font-weight: 730; }
-    .toast {
-      position: fixed; left: 50%; bottom: 26px; z-index: 20; transform: translate(-50%, 16px) scale(.98);
-      opacity: 0; pointer-events: none; padding: 11px 15px; border-radius: 999px; color: #fff;
-      background: rgba(31,41,55,.94); box-shadow: 0 14px 36px rgba(0,0,0,.18);
-      font-size: 13px; font-weight: 700; transition: opacity .18s ease, transform .18s ease; backdrop-filter: blur(12px);
-    }
-    .toast.show { opacity: 1; transform: translate(-50%, 0) scale(1); }
-    @media (max-width: 820px) {
-      .shell { width: min(100% - 22px, 760px); padding-top: 26px; }
-      .hero { grid-template-columns: 1fr; align-items: start; gap: 16px; }
-      .top-actions { justify-content: flex-start; }
-      .top-actions .btn { flex: 1 1 190px; }
-      .section-head { align-items: flex-start; flex-direction: column; }
-      .authority-actions { width: 100%; justify-content: flex-start; }
-      .authority-actions .btn { flex: 1 1 180px; }
-      .panel { border-radius: 18px; }
-      .table-wrap { display: none; }
-      .mobile-actions { display: grid; }
-      .cards { display: grid; gap: 10px; padding: 10px; }
-      .person-card { padding: 15px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.88); }
-      .person-top { display: flex; gap: 10px; align-items: flex-start; }
-      .badge-num { min-width: 30px; height: 30px; display: inline-grid; place-items: center; border-radius: 9px; background: #f1f4f8; color: #7d8693; font-size: 12px; font-weight: 750; }
-      .person-name { margin: 2px 0 3px; font-size: 14px; font-weight: 760; line-height: 1.25; }
-      .person-spec { color: #7b8390; font-size: 11px; font-weight: 650; line-height: 1.4; }
-      .person-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
-      .person-item { display: flex; flex-direction: column; gap: 4px; }
-      .person-item span:first-child { color: #949ba6; font-size: 10px; font-weight: 720; letter-spacing: .04em; text-transform: uppercase; }
-      .person-item a { width: fit-content; max-width: 100%; }
-      .person-item .email-wrap { width: 100%; flex-wrap: wrap; }
-    }
-    @media (min-width: 821px) { .cards { display: none; } }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f5fb">
+<title>Directorio rápido UCSS · FEG</title>
+<style>
+:root{--bg:#f7f5fb;--text:#292733;--muted:#706c7c;--line:rgba(64,58,79,.1);--lav:#eee8ff;--blue:#e8f3ff;--mint:#e7f7ef;--peach:#fff0e5;--rose:#fcebef;--yellow:#fff7d9}*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:var(--text);background:radial-gradient(circle at 8% 5%,#eee8ff 0,transparent 28%),radial-gradient(circle at 92% 10%,#e7f7ef 0,transparent 25%),radial-gradient(circle at 50% 100%,#fff0e5 0,transparent 32%),var(--bg)}button,input,a{font:inherit}.shell{width:min(100% - 28px,1080px);margin:auto;padding:42px 0 72px}.eyebrow{margin:0 0 8px;font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#695c82}h1{margin:0;max-width:800px;font-size:clamp(2rem,5vw,3.6rem);line-height:.98;letter-spacing:-.055em}.subtitle{max-width:760px;margin:14px 0 24px;color:var(--muted);line-height:1.55}.toolbar{display:grid;grid-template-columns:1fr auto;gap:12px;padding:12px;margin-bottom:18px;background:rgba(255,255,255,.84);border:1px solid var(--line);border-radius:22px;box-shadow:0 18px 50px rgba(75,65,105,.1);backdrop-filter:blur(16px)}#search{width:100%;height:48px;padding:0 16px;border:0;outline:0;border-radius:14px;background:rgba(246,244,249,.92)}.primary{height:48px;padding:0 18px;border:0;border-radius:14px;background:#2f2b38;color:#fff;font-weight:750;cursor:pointer}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{display:flex;flex-direction:column;min-height:295px;padding:22px;border:1px solid rgba(50,45,65,.08);border-radius:26px;box-shadow:0 12px 34px rgba(67,60,84,.07)}.card[data-tone=lav]{background:var(--lav)}.card[data-tone=blue]{background:var(--blue)}.card[data-tone=mint]{background:var(--mint)}.card[data-tone=peach]{background:var(--peach)}.card[data-tone=rose]{background:var(--rose)}.card[data-tone=yellow]{background:var(--yellow)}.top{display:flex;justify-content:space-between;align-items:start;margin-bottom:16px}.icon{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:rgba(255,255,255,.6);font-size:1.2rem}.deadline{padding:7px 10px;border:1px solid rgba(50,45,65,.07);border-radius:999px;background:rgba(255,255,255,.58);color:#5f5968;font-size:.76rem;font-weight:800}.section{margin:0 0 5px;color:var(--muted);font-size:.76rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.title{margin:0;font-size:1.35rem;letter-spacing:-.025em}.desc{margin:10px 0 17px;color:var(--muted);font-size:.91rem;line-height:1.45}.recipients{display:grid;gap:9px;margin-bottom:18px}.row{display:grid;grid-template-columns:46px 1fr auto;gap:8px;align-items:start;padding:10px 11px;border:1px solid rgba(50,45,65,.07);border-radius:14px;background:rgba(255,255,255,.44)}.tag{padding-top:2px;color:#746f7d;font-size:.74rem;font-weight:850;text-transform:uppercase}.person{display:block;margin-bottom:2px;color:#5f5968;font-size:.77rem;font-weight:700}.email{color:var(--text);font-size:.9rem;font-weight:780;text-decoration:none;overflow-wrap:anywhere}.mini{min-height:32px;padding:0 9px;border:0;border-radius:10px;background:rgba(47,43,56,.08);font-size:.73rem;font-weight:800;cursor:pointer}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:auto}.copy,.mail{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 14px;border-radius:13px;font-size:.86rem;font-weight:750;text-decoration:none;cursor:pointer}.copy{border:0;background:rgba(47,43,56,.92);color:#fff}.mail{border:1px solid rgba(47,43,56,.12);background:rgba(255,255,255,.52);color:var(--text)}.empty{display:none;padding:40px;text-align:center;color:var(--muted)}.note{margin:22px 4px 0;text-align:center;color:#7c7786;font-size:.82rem}.toast{position:fixed;left:50%;bottom:max(28px,env(safe-area-inset-bottom));transform:translate(-50%,18px);padding:11px 18px;border-radius:999px;background:rgba(38,35,45,.94);color:#fff;font-weight:760;opacity:0;pointer-events:none;transition:.15s;z-index:50}.toast.show{opacity:1;transform:translate(-50%,0)}
+
+.directory-zone{width:min(100% - 28px,1080px);margin:auto;padding:0 0 72px}.directory-section{margin:0 0 44px}.directory-head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:14px}.directory-head h2{margin:0;font-size:clamp(1.7rem,3vw,2.35rem);letter-spacing:-.04em}.directory-head p{margin:7px 0 0;color:var(--muted);font-size:.91rem;line-height:1.5}.directory-actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}.directory-actions .primary,.directory-actions .mail{height:44px;min-height:44px}.directory-panel{overflow:hidden;border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.82);box-shadow:0 18px 50px rgba(75,65,105,.08);backdrop-filter:blur(16px)}.directory-table-wrap{overflow-x:auto}.directory-table{width:100%;border-collapse:separate;border-spacing:0;min-width:860px}.directory-table th,.directory-table td{padding:14px 15px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}.directory-table thead th{background:rgba(249,248,252,.92);color:#797482;font-size:.72rem;font-weight:850;letter-spacing:.055em;text-transform:uppercase}.directory-table tbody tr:last-child td{border-bottom:0}.directory-table tbody tr:hover{background:rgba(248,247,251,.75)}.directory-num{width:54px;text-align:center!important;color:#918b99;font-size:.82rem;font-weight:800}.directory-name{min-width:235px;font-weight:800;font-size:.91rem}.directory-role{min-width:300px;color:#625d69;font-size:.84rem;line-height:1.45;font-weight:650}.directory-phone{white-space:nowrap;font-size:.84rem}.directory-phone a{color:var(--text);text-decoration:none}.directory-email-wrap{display:inline-flex;align-items:center;gap:7px;max-width:100%}.directory-email{display:inline-flex;max-width:100%;padding:7px 9px;border-radius:10px;background:rgba(238,232,255,.7);color:#4c445d;font-size:.82rem;font-weight:780;text-decoration:none;overflow-wrap:anywhere}.directory-copy{height:32px;padding:0 9px;border:0;border-radius:10px;background:rgba(47,43,56,.08);font-size:.73rem;font-weight:800;cursor:pointer}.directory-empty{color:#a19ba7;font-size:.82rem}.directory-cards{display:none;padding:10px;gap:10px}.directory-card{padding:16px;border:1px solid var(--line);border-radius:17px;background:rgba(255,255,255,.8)}.directory-card-top{display:flex;gap:10px;align-items:flex-start}.directory-badge{min-width:31px;height:31px;display:grid;place-items:center;border-radius:10px;background:var(--lav);font-size:.75rem;font-weight:850;color:#695c82}.directory-card-name{font-weight:820;font-size:.91rem;line-height:1.3}.directory-card-role{margin-top:3px;color:var(--muted);font-size:.78rem;line-height:1.4}.directory-card-grid{display:grid;gap:9px;margin-top:13px}.directory-card-item{display:grid;gap:4px}.directory-card-label{color:#8c8791;font-size:.68rem;font-weight:850;letter-spacing:.05em;text-transform:uppercase}.directory-note{margin:11px 2px 0;color:#827c89;font-size:.77rem;line-height:1.5}
+
+@media(max-width:720px){.shell{width:min(100% - 20px,1080px);padding-top:28px}.toolbar,.grid{grid-template-columns:1fr}.primary{width:100%}.card{min-height:0}.row{grid-template-columns:43px 1fr auto}.directory-zone{width:min(100% - 20px,1080px)}.directory-head{align-items:flex-start;flex-direction:column}.directory-actions{width:100%;justify-content:flex-start}.directory-actions .primary,.directory-actions .mail{flex:1 1 160px}.directory-table-wrap{display:none}.directory-cards{display:grid}.directory-email-wrap{flex-wrap:wrap}.directory-section{margin-bottom:36px}}
+</style>
 </head>
 <body>
-  <main class="shell">
-    <section class="hero">
-      <div>
-        <span class="eyebrow"><span class="dot"></span> UCSS · Chulucanas</span>
-        <h1>Directorio docente</h1>
-        <p class="subtitle">Matemática · 11 docentes · accesos rápidos para copiar direcciones o redactar un anuncio.</p>
-      </div>
-      <div class="top-actions">
-        <button class="btn btn-soft" type="button" onclick="copyEmails('all')">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copiar todos los correos
-        </button>
-        <button class="btn btn-primary" type="button" onclick="openMail('institutional')">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2V6a2 2 0 0 1 2-2z"></path><path d="m22 6-10 7L2 6"></path></svg>
-          Anunciar a todos
-        </button>
-      </div>
-    </section>
+<main class="shell"><p class="eyebrow">UCSS · Facultad de Estudios Generales</p><h1>El trámite correcto, con los correos correctos.</h1><p class="subtitle">Cada tarjeta muestra destinatarios principales, copias, plazo y contacto. Copia un dato o toda la combinación lista para usar.</p><section class="toolbar"><input id="search" type="search" placeholder="Buscar descanso, asistencia, copias, soporte…"><button class="primary" id="copyAll">Copiar todos los correos</button></section><section class="grid" id="grid"></section><div class="empty" id="empty">No encontré coincidencias.</div><p class="note">Información organizada a partir de las indicaciones generales FEG 2026-2.</p></main>
 
-    <section class="panel" aria-label="Directorio de docentes">
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th class="num">N°</th>
-              <th>Apellidos y nombres</th>
-              <th>Especialidad</th>
-              <th>Celular</th>
-              <th>Correo personal</th>
-              <th>Correo institucional</th>
-            </tr>
-          </thead>
-          <tbody id="directoryBody"></tbody>
-          <tfoot>
-            <tr>
-              <td></td>
-              <td><span class="footer-label">Acciones rápidas</span></td>
-              <td></td>
-              <td></td>
-              <td>
-                <div class="column-actions">
-                  <button class="btn btn-soft" type="button" onclick="copyEmails('personal')">Copiar</button>
-                  <button class="btn btn-mail" type="button" onclick="openMail('personal')">Redactar</button>
-                </div>
-              </td>
-              <td>
-                <div class="column-actions">
-                  <button class="btn btn-soft" type="button" onclick="copyEmails('institutional')">Copiar</button>
-                  <button class="btn btn-mail" type="button" onclick="openMail('institutional')">Redactar</button>
-                </div>
-              </td>
-            </tr>
-          </tfoot>
+<main class="directory-zone">
+  <section class="directory-section" aria-labelledby="authoritiesTitle">
+    <div class="directory-head">
+      <div>
+        <h2 id="authoritiesTitle">Autoridades y coordinaciones</h2>
+        <p>Contactos de coordinación académica, dirección, decanato y departamento académico.</p>
+      </div>
+      <div class="directory-actions">
+        <button class="primary" id="copyAuthorities" type="button">Copiar correos</button>
+        <a class="mail" id="mailAuthorities" href="#">Redactar con copias</a>
+      </div>
+    </div>
+    <section class="directory-panel" aria-label="Directorio de autoridades">
+      <div class="directory-table-wrap">
+        <table class="directory-table">
+          <thead><tr><th class="directory-num">N°</th><th>Autoridad</th><th>Cargo / área</th><th>Correo institucional</th></tr></thead>
+          <tbody id="authorityBody"></tbody>
         </table>
       </div>
-      <div class="cards" id="directoryCards"></div>
+      <div class="directory-cards" id="authorityCards"></div>
     </section>
+    <p class="directory-note">En “Redactar con copias”, la Dirección de la Filial Chulucanas se coloca en CC.</p>
+  </section>
 
-    <section class="mobile-actions" aria-label="Acciones de correo">
-      <div class="action-card">
-        <h3>Correo personal</h3>
-        <div class="column-actions">
-          <button class="btn btn-soft" type="button" onclick="copyEmails('personal')">Copiar correos</button>
-          <button class="btn btn-mail" type="button" onclick="openMail('personal')">Redactar correo</button>
-        </div>
+  <section class="directory-section" aria-labelledby="facultyTitle">
+    <div class="directory-head">
+      <div>
+        <h2 id="facultyTitle">Directorio docente</h2>
+        <p>Matemática · 11 docentes · correos personales e institucionales con copia individual.</p>
       </div>
-      <div class="action-card">
-        <h3>Correo institucional</h3>
-        <div class="column-actions">
-          <button class="btn btn-soft" type="button" onclick="copyEmails('institutional')">Copiar correos</button>
-          <button class="btn btn-mail" type="button" onclick="openMail('institutional')">Redactar correo</button>
-        </div>
+      <div class="directory-actions">
+        <button class="primary" id="copyFacultyInstitutional" type="button">Copiar institucionales</button>
+        <a class="mail" id="mailFaculty" href="#">Anunciar a todos</a>
       </div>
+    </div>
+    <section class="directory-panel" aria-label="Directorio de docentes">
+      <div class="directory-table-wrap">
+        <table class="directory-table">
+          <thead><tr><th class="directory-num">N°</th><th>Apellidos y nombres</th><th>Especialidad</th><th>Celular</th><th>Correo personal</th><th>Correo institucional</th></tr></thead>
+          <tbody id="facultyBody"></tbody>
+        </table>
+      </div>
+      <div class="directory-cards" id="facultyCards"></div>
     </section>
+    <p class="directory-note">“Anunciar a todos” coloca los correos institucionales en CCO.</p>
+  </section>
+</main>
 
-    <section class="section-block" aria-labelledby="authoritiesTitle">
-      <div class="section-head">
-        <div>
-          <h2 id="authoritiesTitle">Autoridades y coordinaciones</h2>
-          <p>Contactos de coordinación académica, dirección, decanato y departamento académico.</p>
-        </div>
-        <div class="authority-actions">
-          <button class="btn btn-soft" type="button" onclick="copyAuthorityEmails()">Copiar correos</button>
-          <button class="btn btn-primary" type="button" onclick="openAuthorityMail()">Redactar con copias</button>
-        </div>
-      </div>
+<div class="toast" id="toast">¡Copiado!</div>
+<script>
+const items=[
+{tone:'blue',icon:'✚',section:'Gestión académica y laboral',title:'Descanso médico',desc:'Informar a la coordinación de FEG.',deadline:'Máximo 48 h',to:[['Coordinación FEG','pmoran@ucss.edu.pe']],cc:[['','estudiosgenerales@ucss.edu.pe'],['','lchiroque@ucss.edu.pe']]},
+{tone:'lav',icon:'⌁',section:'Gestión académica y laboral',title:'Consultas de contrato / pagos',desc:'Contacto principal: Sra. Mónica Chiroque.',to:[['Mónica Chiroque','mchiroque@ucss.edu.pe']],cc:[['','estudiosgenerales@ucss.edu.pe'],['','lchiroque@ucss.edu.pe']]},
+{tone:'mint',icon:'▤',section:'Gestión académica y laboral',title:'Constancias de trabajo',desc:'Solicitar a la Oficina de Personal.',to:[['Oficina de Personal','of_personal@ucss.edu.pe']],cc:[['','estudiosgenerales@ucss.edu.pe'],['','lchiroque@ucss.edu.pe']]},
+{tone:'peach',icon:'◷',section:'Gestión de asistencia y faltas',title:'Faltas',desc:'Informar a la coordinación de FEG y coordinar recuperación presencial o virtual.',deadline:'Máximo 48 h',to:[['Coordinación FEG','pmoran@ucss.edu.pe']],cc:[['','estudiosgenerales@ucss.edu.pe'],['','lchiroque@ucss.edu.pe']]},
+{tone:'yellow',icon:'✓',section:'Gestión de asistencia y faltas',title:'Control de asistencia · Administrativa',desc:'Enviar a Mónica Chiroque y Anne Magaly Granda. Informar a la coordinación de FEG en copia.',to:[['Sra. Mónica Chiroque','mchiroque@ucss.edu.pe'],['Anne Magaly Granda','agranda@ucss.edu.pe']],cc:[['Coordinación FEG','pmoran@ucss.edu.pe']]},
+{tone:'mint',icon:'✦',section:'Servicios y soporte de aula',title:'Limpieza',desc:'Sr. Marco · 925817136. Informar a la coordinación de FEG.',to:[['Coordinación FEG','pmoran@ucss.edu.pe']],phone:'925817136'},
+{tone:'blue',icon:'▣',section:'Servicios y soporte de aula',title:'Soporte técnico',desc:'Tecn. Elver García · 967860883. Informar a la coordinación de FEG.',to:[['Coordinación FEG','pmoran@ucss.edu.pe']],phone:'967860883'},
+{tone:'rose',icon:'◇',section:'Seguridad y materiales',title:'Seguridad en el trabajo',desc:'Ing. Alberca · 930541957. Informar a la coordinación de FEG.',to:[['Coordinación FEG','pmoran@ucss.edu.pe']],phone:'930541957'},
+{tone:'lav',icon:'▧',section:'Seguridad y materiales',title:'Copias, separatas o exámenes',desc:'Solicitar a la Sra. Mónica Chiroque.',deadline:'48 h de anticipación',to:[['Sra. Mónica Chiroque','mchiroque@ucss.edu.pe']]}
+];
 
-      <section class="panel" aria-label="Directorio de autoridades">
-        <div class="table-wrap">
-          <table class="authority-table">
-            <thead>
-              <tr>
-                <th class="num">N°</th>
-                <th>Autoridad</th>
-                <th>Cargo / área</th>
-                <th>Correo institucional</th>
-              </tr>
-            </thead>
-            <tbody id="authorityBody"></tbody>
-          </table>
-        </div>
-        <div class="cards" id="authorityCards"></div>
-      </section>
-      <p class="privacy-note">En “Redactar con copias”, la Dirección de la Filial Chulucanas se coloca en CC.</p>
-    </section>
+const authorities=[
+{n:1,name:'PEDRO MARCIAL MORÁN QUISPE',role:'Coordinador académico de la Facultad de Estudios Generales · Filial Chulucanas',email:'pmoran@ucss.edu.pe',group:'to'},
+{n:2,name:'YOMIRA ESTEFANI ACOSTA VENTURA',role:'Coordinadora académica de la Facultad de Ingeniería · Filial Chulucanas',email:'yacosta@ucss.edu.pe',group:'to'},
+{n:3,name:'NORMA EDITH LUNA RAMÍREZ',role:'Coordinadora del área de Matemáticas y Física · Facultad de Estudios Generales · Filial Lima',email:'nluna@ucss.edu.pe',group:'to'},
+{n:4,name:'LÁZARO ELÍAS LIZANO CARMEN',role:'Director académico · Filial Morropón: Chulucanas',email:'llizano@ucss.edu.pe',group:'cc'},
+{n:5,name:'LUIS ALBERTO CHIROQUE FARFÁN',role:'Director administrativo · Filial Morropón: Chulucanas',email:'lchiroque@ucss.edu.pe',group:'cc'},
+{n:6,name:'RAUF SAUD NEME SÁNCHEZ',role:'Decanato de la Facultad de Estudios Generales · Filial Lima',email:'rneme@ucss.edu.pe',group:'to'},
+{n:7,name:'MANUEL JESÚS VEJARANO INGAR',role:'Jefe del Departamento Académico de la Facultad de Estudios Generales · Filial Lima',email:'mvejarano@ucss.edu.pe',group:'to'}
+];
 
-    <p class="privacy-note">Los botones de redacción del directorio docente colocan las direcciones en CCO para evitar exponer la lista completa de destinatarios entre docentes.</p>
-  </main>
-  <div class="toast" id="toast" role="status" aria-live="polite">¡Copiado!</div>
+const faculty=[
+{n:1,name:'ANTO MIMBELA LUIS ALBERTO',specialty:'MATEMÁTICA',phone:'931 138 520',personal:'la86926@gmail.com',institutional:'lanto@ucss.edu.pe'},
+{n:2,name:'CORREA GARCIA HAYDEE',specialty:'MATEMÁTICA',phone:'942 619 619',personal:'',institutional:'hcorrea@ucss.edu.pe'},
+{n:3,name:'FLORES MACALUPU LUIS ENRIQUE',specialty:'MATEMÁTICA',phone:'958 415 145',personal:'enriqueflores1612@gmail.com',institutional:'lfloresm@ucss.edu.pe'},
+{n:4,name:'GARCIA CAMPOVERDE HEVERTH',specialty:'MATEMÁTICA',phone:'945 756 780',personal:'kenshi_19@hotmail.com',institutional:'hgarciac@ucss.edu.pe'},
+{n:5,name:'LAMADRID REYES JAVIER EMILIANO',specialty:'MATEMÁTICA',phone:'958 949 808',personal:'',institutional:'jlamadrid@ucss.edu.pe'},
+{n:6,name:'MONDRAGON MENDOZA CAMILL',specialty:'MATEMÁTICA',phone:'910 362 783',personal:'',institutional:'cmondragon@ucss.edu.pe'},
+{n:7,name:'MORAN QUISPE PEDRO MARCIAL',specialty:'MATEMÁTICA',phone:'975 487 278',personal:'pedro_aje18@hotmail.com',institutional:'pmoran@ucss.edu.pe'},
+{n:9,name:'PULACHE GARCIA JOSE ALBERTO',specialty:'MATEMÁTICA',phone:'948 746 133',personal:'',institutional:'jpulache@ucss.edu.pe'},
+{n:10,name:'RIOJA LOZADA EDWIN RONALD',specialty:'MATEMÁTICA',phone:'938 315 745',personal:'',institutional:'erioja@ucss.edu.pe'},
+{n:11,name:'SANCHEZ CARRANZA JOSE ALCIVIADES',specialty:'MATEMÁTICA',phone:'973 483 980',personal:'',institutional:'jsanchezc@ucss.edu.pe'},
+{n:12,name:'VILCHERREZ VILELA RITA',specialty:'MATEMÁTICA',phone:'931 138 623',personal:'rita_20_4@hotmail.com',institutional:'rvilcherrez@ucss.edu.pe'}
+];
 
-  <script>
-    const faculty = [
-      { n: 1,  name: 'ANTO MIMBELA LUIS ALBERTO', specialty: 'MATEMÁTICA', phone: '931 138 520', personal: 'la86926@gmail.com', institutional: 'lanto@ucss.edu.pe' },
-      { n: 2,  name: 'CORREA GARCIA HAYDEE', specialty: 'MATEMÁTICA', phone: '942 619 619', personal: '', institutional: 'hcorrea@ucss.edu.pe' },
-      { n: 3,  name: 'FLORES MACALUPU LUIS ENRIQUE', specialty: 'MATEMÁTICA', phone: '958 415 145', personal: 'enriqueflores1612@gmail.com', institutional: 'lfloresm@ucss.edu.pe' },
-      { n: 4,  name: 'GARCIA CAMPOVERDE HEVERTH', specialty: 'MATEMÁTICA', phone: '945 756 780', personal: 'kenshi_19@hotmail.com', institutional: 'hgarciac@ucss.edu.pe' },
-      { n: 5,  name: 'LAMADRID REYES JAVIER EMILIANO', specialty: 'MATEMÁTICA', phone: '958 949 808', personal: '', institutional: 'jlamadrid@ucss.edu.pe' },
-      { n: 6,  name: 'MONDRAGON MENDOZA CAMILL', specialty: 'MATEMÁTICA', phone: '910 362 783', personal: '', institutional: 'cmondragon@ucss.edu.pe' },
-      { n: 7,  name: 'MORAN QUISPE PEDRO MARCIAL', specialty: 'MATEMÁTICA', phone: '975 487 278', personal: 'pedro_aje18@hotmail.com', institutional: 'pmoran@ucss.edu.pe' },
-      { n: 9,  name: 'PULACHE GARCIA JOSE ALBERTO', specialty: 'MATEMÁTICA', phone: '948 746 133', personal: '', institutional: 'jpulache@ucss.edu.pe' },
-      { n: 10, name: 'RIOJA LOZADA EDWIN RONALD', specialty: 'MATEMÁTICA', phone: '938 315 745', personal: '', institutional: 'erioja@ucss.edu.pe' },
-      { n: 11, name: 'SANCHEZ CARRANZA JOSE ALCIVIADES', specialty: 'MATEMÁTICA', phone: '973 483 980', personal: '', institutional: 'jsanchezc@ucss.edu.pe' },
-      { n: 12, name: 'VILCHERREZ VILELA RITA', specialty: 'MATEMÁTICA', phone: '931 138 623', personal: 'rita_20_4@hotmail.com', institutional: 'rvilcherrez@ucss.edu.pe' }
-    ];
+const grid=document.getElementById('grid'),toast=document.getElementById('toast');let timer;
+function copyText(t){navigator.clipboard?.writeText(t).catch(()=>fallback(t))||fallback(t);clearTimeout(timer);toast.classList.add('show');timer=setTimeout(()=>toast.classList.remove('show'),1000)}function fallback(t){const x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();document.execCommand('copy');x.remove()}
+function rows(list,label){return(list||[]).map(([p,e])=>`<div class="row"><span class="tag">${label}</span><div>${p?`<span class="person">${p}</span>`:''}<a class="email" href="mailto:${e}">${e}</a></div><button class="mini" data-copy="${e}">Copiar</button></div>`).join('')}
+function card(x){const tos=x.to.map(v=>v[1]),ccs=(x.cc||[]).map(v=>v[1]),combo=`Para: ${tos.join('; ')}${ccs.length?`\nCC: ${ccs.join('; ')}`:''}`,mailto=`mailto:${tos.join(',')}${ccs.length?`?cc=${ccs.join(',')}`:''}`;return`<article class="card" data-tone="${x.tone}" data-search="${[x.section,x.title,x.desc,...tos,...ccs,x.phone||''].join(' ').toLowerCase()}"><div class="top"><div class="icon">${x.icon}</div>${x.deadline?`<span class="deadline">${x.deadline}</span>`:''}</div><p class="section">${x.section}</p><h2 class="title">${x.title}</h2><p class="desc">${x.desc}</p><div class="recipients">${rows(x.to,'Para')}${rows(x.cc,'CC')}${x.phone?`<div class="row"><span class="tag">Tel.</span><div><strong>${x.phone}</strong></div><button class="mini" data-copy="${x.phone}">Copiar</button></div>`:''}</div><div class="actions"><button class="copy" data-copy="${combo.replace(/"/g,'&quot;')}">${tos.length+ccs.length>1?'Copiar combinación':'Copiar correo'}</button><a class="mail" href="${mailto}">Escribir</a></div></article>`}
+grid.innerHTML=items.map(card).join('');
+document.addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(b)copyText(b.dataset.copy)});
+document.getElementById('copyAll').onclick=()=>copyText([...new Set(items.flatMap(x=>[...x.to,...(x.cc||[])]).map(v=>v[1]))].join('\n'));
+document.getElementById('search').oninput=e=>{const q=e.target.value.trim().toLowerCase();let n=0;[...grid.children].forEach(c=>{const ok=!q||c.dataset.search.includes(q);c.hidden=!ok;if(ok)n++});document.getElementById('empty').style.display=n?'none':'block'};
 
-    const authorities = [
-      { n: 1, name: 'PEDRO MARCIAL MORÁN QUISPE', role: 'Coordinador académico de la Facultad de Estudios Generales · Filial Chulucanas', email: 'pmoran@ucss.edu.pe', group: 'to' },
-      { n: 2, name: 'YOMIRA ESTEFANI ACOSTA VENTURA', role: 'Coordinadora académica de la Facultad de Ingeniería · Filial Chulucanas', email: 'yacosta@ucss.edu.pe', group: 'to' },
-      { n: 3, name: 'NORMA EDITH LUNA RAMÍREZ', role: 'Coordinadora del área de Matemáticas y Física · Facultad de Estudios Generales · Filial Lima', email: 'nluna@ucss.edu.pe', group: 'to' },
-      { n: 4, name: 'LÁZARO ELÍAS LIZANO CARMEN', role: 'Director académico · Filial Morropón: Chulucanas', email: 'llizano@ucss.edu.pe', group: 'cc' },
-      { n: 5, name: 'LUIS ALBERTO CHIROQUE FARFÁN', role: 'Director administrativo · Filial Morropón: Chulucanas', email: 'lchiroque@ucss.edu.pe', group: 'cc' },
-      { n: 6, name: 'RAUF SAUD NEME SÁNCHEZ', role: 'Decanato de la Facultad de Estudios Generales · Filial Lima', email: 'rneme@ucss.edu.pe', group: 'to' },
-      { n: 7, name: 'MANUEL JESÚS VEJARANO INGAR', role: 'Jefe del Departamento Académico de la Facultad de Estudios Generales · Filial Lima', email: 'mvejarano@ucss.edu.pe', group: 'to' }
-    ];
+function emailControl(email){return email?`<span class="directory-email-wrap"><a class="directory-email" href="mailto:${email}">${email}</a><button class="directory-copy" type="button" data-copy="${email}">Copiar</button></span>`:'<span class="directory-empty">—</span>'}
 
-    const body = document.getElementById('directoryBody');
-    const cards = document.getElementById('directoryCards');
-    const authorityBody = document.getElementById('authorityBody');
-    const authorityCards = document.getElementById('authorityCards');
+const authorityBody=document.getElementById('authorityBody');
+const authorityCards=document.getElementById('authorityCards');
+authorityBody.innerHTML=authorities.map(p=>`<tr><td class="directory-num">${p.n}</td><td class="directory-name">${p.name}</td><td class="directory-role">${p.role}</td><td>${emailControl(p.email)}</td></tr>`).join('');
+authorityCards.innerHTML=authorities.map(p=>`<article class="directory-card"><div class="directory-card-top"><span class="directory-badge">${p.n}</span><div><div class="directory-card-name">${p.name}</div><div class="directory-card-role">${p.role}</div></div></div><div class="directory-card-grid"><div class="directory-card-item"><span class="directory-card-label">Correo institucional</span>${emailControl(p.email)}</div></div></article>`).join('');
+const authorityTo=authorities.filter(p=>p.group==='to').map(p=>p.email);
+const authorityCc=authorities.filter(p=>p.group==='cc').map(p=>p.email);
+document.getElementById('copyAuthorities').onclick=()=>copyText(authorities.map(p=>p.email).join('\n'));
+document.getElementById('mailAuthorities').href=`mailto:${authorityTo.join(',')}?cc=${authorityCc.join(',')}`;
 
-    const emailLink = (email) => email
-      ? `<span class="email-wrap"><a class="email" href="mailto:${email}">${email}</a><button class="copy-email" type="button" onclick="copySingleEmail('${email}')" aria-label="Copiar ${email}" title="Copiar correo"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>Copiar</button></span>`
-      : '<span class="empty">No proporcionado</span>';
-
-    body.innerHTML = faculty.map(person => `
-      <tr>
-        <td class="num">${person.n}</td>
-        <td class="name">${person.name}</td>
-        <td class="specialty">${person.specialty}</td>
-        <td class="phone"><a href="tel:${person.phone.replaceAll(' ', '')}">${person.phone}</a></td>
-        <td>${emailLink(person.personal)}</td>
-        <td>${emailLink(person.institutional)}</td>
-      </tr>
-    `).join('');
-
-    cards.innerHTML = faculty.map(person => `
-      <article class="person-card">
-        <div class="person-top">
-          <span class="badge-num">${person.n}</span>
-          <div>
-            <div class="person-name">${person.name}</div>
-            <div class="person-spec">${person.specialty}</div>
-          </div>
-        </div>
-        <div class="person-grid">
-          <div class="person-item"><span>Celular</span><a class="phone" href="tel:${person.phone.replaceAll(' ', '')}">${person.phone}</a></div>
-          <div class="person-item"><span>Correo personal</span>${emailLink(person.personal)}</div>
-          <div class="person-item"><span>Correo institucional</span>${emailLink(person.institutional)}</div>
-        </div>
-      </article>
-    `).join('');
-
-    authorityBody.innerHTML = authorities.map(person => `
-      <tr>
-        <td class="num">${person.n}</td>
-        <td class="authority-name">${person.name}</td>
-        <td class="authority-role">${person.role}</td>
-        <td>${emailLink(person.email)}</td>
-      </tr>
-    `).join('');
-
-    authorityCards.innerHTML = authorities.map(person => `
-      <article class="person-card">
-        <div class="person-top">
-          <span class="badge-num">${person.n}</span>
-          <div>
-            <div class="person-name">${person.name}</div>
-            <div class="person-spec">${person.role}</div>
-          </div>
-        </div>
-        <div class="person-grid">
-          <div class="person-item"><span>Correo institucional</span>${emailLink(person.email)}</div>
-        </div>
-      </article>
-    `).join('');
-
-    function getEmails(kind) {
-      if (kind === 'personal') return faculty.map(p => p.personal).filter(Boolean);
-      if (kind === 'institutional') return faculty.map(p => p.institutional).filter(Boolean);
-      return [...new Set(faculty.flatMap(p => [p.personal, p.institutional]).filter(Boolean))];
-    }
-
-    async function copyText(text, message = '¡Copiado!') {
-      try {
-        await navigator.clipboard.writeText(text);
-      } catch (_) {
-        const helper = document.createElement('textarea');
-        helper.value = text;
-        helper.style.position = 'fixed';
-        helper.style.opacity = '0';
-        document.body.appendChild(helper);
-        helper.select();
-        document.execCommand('copy');
-        helper.remove();
-      }
-      showToast(message);
-    }
-
-    function copySingleEmail(email) {
-      copyText(email, '¡Correo copiado!');
-    }
-
-    function copyEmails(kind) {
-      copyText(getEmails(kind).join(', '));
-    }
-
-    function openMail(kind) {
-      const emails = getEmails(kind);
-      window.location.href = `mailto:?bcc=${encodeURIComponent(emails.join(','))}`;
-    }
-
-    function copyAuthorityEmails() {
-      const emails = authorities.map(p => p.email).filter(Boolean);
-      copyText(emails.join(', '));
-    }
-
-    function openAuthorityMail() {
-      const to = authorities.filter(p => p.group === 'to' && p.email).map(p => p.email);
-      const cc = authorities.filter(p => p.group === 'cc' && p.email).map(p => p.email);
-      window.location.href = `mailto:${encodeURIComponent(to.join(','))}?cc=${encodeURIComponent(cc.join(','))}`;
-    }
-
-    let toastTimer;
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove('show'), 1200);
-    }
-  </script>
+const facultyBody=document.getElementById('facultyBody');
+const facultyCards=document.getElementById('facultyCards');
+facultyBody.innerHTML=faculty.map(p=>`<tr><td class="directory-num">${p.n}</td><td class="directory-name">${p.name}</td><td class="directory-role">${p.specialty}</td><td class="directory-phone"><a href="tel:${p.phone.replaceAll(' ','')}">${p.phone}</a></td><td>${emailControl(p.personal)}</td><td>${emailControl(p.institutional)}</td></tr>`).join('');
+facultyCards.innerHTML=faculty.map(p=>`<article class="directory-card"><div class="directory-card-top"><span class="directory-badge">${p.n}</span><div><div class="directory-card-name">${p.name}</div><div class="directory-card-role">${p.specialty}</div></div></div><div class="directory-card-grid"><div class="directory-card-item"><span class="directory-card-label">Celular</span><a class="directory-phone" href="tel:${p.phone.replaceAll(' ','')}">${p.phone}</a></div><div class="directory-card-item"><span class="directory-card-label">Correo personal</span>${emailControl(p.personal)}</div><div class="directory-card-item"><span class="directory-card-label">Correo institucional</span>${emailControl(p.institutional)}</div></div></article>`).join('');
+const facultyInstitutional=faculty.map(p=>p.institutional).filter(Boolean);
+document.getElementById('copyFacultyInstitutional').onclick=()=>copyText(facultyInstitutional.join('\n'));
+document.getElementById('mailFaculty').href=`mailto:?bcc=${facultyInstitutional.join(',')}`;
+</script>
 </body>
 </html>
